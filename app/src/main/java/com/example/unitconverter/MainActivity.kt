@@ -23,6 +23,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,6 +51,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun UnitConverter(modifier: Modifier = Modifier) {
+    var inputValue by remember { mutableStateOf("") }
+    var outputValue by remember { mutableStateOf("") }
+
+    var inputUnit by remember { mutableStateOf("Centimeters") }
+    var outputUnit by remember { mutableStateOf("Meters") }
+
+    var inputExpanded by remember { mutableStateOf(false) }
+    var outputExpanded by remember { mutableStateOf(false) }
+
+    val converterFactor = remember { mutableDoubleStateOf(0.01) }
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -55,10 +71,12 @@ fun UnitConverter(modifier: Modifier = Modifier) {
         Text(text = "Unit Converter")
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = "",
+            value = inputValue,
             onValueChange = {
+                inputValue = it
                 // Here goes what should happen, when the Value of our OutlinedTextField changes
             },
+            label = { Text(text = "Enter Value") }
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row {
@@ -73,7 +91,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                     )
                 }
                 DropdownMenu(
-                    expanded = true,
+                    expanded = false,
                     onDismissRequest = {}
                 ) {
                     DropdownMenuItem(
@@ -106,7 +124,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                     )
                 }
                 DropdownMenu(
-                    expanded = true,
+                    expanded = false,
                     onDismissRequest = {}
                 ) {
                     DropdownMenuItem(
