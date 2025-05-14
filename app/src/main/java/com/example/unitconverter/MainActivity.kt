@@ -4,8 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,28 +23,36 @@ class MainActivity : ComponentActivity() {
         setContent {
             UnitConverterTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    UnitConverter(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
 
+
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun UnitConverter(modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        // Here all the UI elements  will be stacked below each other
+        Text(text = "Unit Converter")
+        OutlinedTextField(
+            value = "",
+            onValueChange = {
+                // Here goes what should happen, when the Value of our OutlinedTextField changes
+            },
+        )
+        Row {
+            // Here all the UI elements  will be stacked next to each other
+        }
+        Text(text = "Result:")
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun UnitConverterPreview() {
     UnitConverterTheme {
-        Greeting("Android")
+        UnitConverter()
     }
 }
