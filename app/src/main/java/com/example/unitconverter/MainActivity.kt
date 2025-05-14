@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.unitconverter.ui.theme.UnitConverterTheme
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +63,13 @@ fun UnitConverter(modifier: Modifier = Modifier) {
 
     val converterFactor = remember { mutableDoubleStateOf(0.01) }
 
+    fun convertUnits() {
+        // ?: - elvis operator
+        val inputValueDouble = inputValue.toDoubleOrNull() ?: 0.0
+        val result = (inputValueDouble * converterFactor.doubleValue * 100.0).roundToInt() / 100.0
+        outputValue = result.toString()
+    }
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -80,9 +88,11 @@ fun UnitConverter(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row {
+            // Input Box
             Box {
+                // Input Button
                 Button(
-                    onClick = {}
+                    onClick = { inputExpanded = true }
                 ) {
                     Text(text = "Select")
                     Icon(
@@ -91,31 +101,53 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                     )
                 }
                 DropdownMenu(
-                    expanded = false,
-                    onDismissRequest = {}
+                    expanded = inputExpanded,
+                    onDismissRequest = { inputExpanded = false }
                 ) {
                     DropdownMenuItem(
                         text = { Text(text = "Centimeters") },
-                        onClick = {}
+                        onClick = {
+                            inputExpanded = false
+                            inputUnit = "Centimeters"
+                            converterFactor.doubleValue = 0.01
+                            convertUnits()
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = "Meters") },
-                        onClick = {}
+                        onClick = {
+                            inputExpanded = false
+                            inputUnit = "Meters"
+                            converterFactor.doubleValue = 1.0
+                            convertUnits()
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = "Feet") },
-                        onClick = {}
+                        onClick = {
+                            inputExpanded = false
+                            inputUnit = "Feet"
+                            converterFactor.doubleValue = 0.3048
+                            convertUnits()
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = "Millimeters") },
-                        onClick = {}
+                        onClick = {
+                            inputExpanded = false
+                            inputUnit = "Millimeters"
+                            converterFactor.doubleValue = 0.00
+                            convertUnits()
+                        }
                     )
                 }
             }
             Spacer(modifier = Modifier.width(16.dp))
+            // Output Box
             Box {
+                // Output Button
                 Button(
-                    onClick = {}
+                    onClick = { outputExpanded = true }
                 ) {
                     Text(text = "Select")
                     Icon(
@@ -124,8 +156,8 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                     )
                 }
                 DropdownMenu(
-                    expanded = false,
-                    onDismissRequest = {}
+                    expanded = outputExpanded,
+                    onDismissRequest = { outputExpanded = false }
                 ) {
                     DropdownMenuItem(
                         text = { Text(text = "Centimeters") },
