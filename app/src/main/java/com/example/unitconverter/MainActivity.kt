@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,8 +31,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.unitconverter.ui.theme.UnitConverterTheme
 import kotlin.math.roundToInt
 
@@ -64,6 +69,12 @@ fun UnitConverter(modifier: Modifier = Modifier) {
     val inputConverterFactor = remember { mutableDoubleStateOf(1.0) }
     val outputConverterFactor = remember { mutableDoubleStateOf(1.0) }
 
+    val customTextStyle = TextStyle(
+        fontFamily = FontFamily.Monospace,
+        fontSize = 32.sp,
+        color = Color.Red
+    )
+
     fun convertUnits() {
         // ?: - elvis operator
         val inputValueDouble = inputValue.toDoubleOrNull() ?: 0.0
@@ -78,7 +89,10 @@ fun UnitConverter(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Here all the UI elements  will be stacked below each other
-        Text(text = "Unit Converter")
+        Text(
+            text = "Unit Converter",
+            style = customTextStyle
+        )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = inputValue,
@@ -203,7 +217,11 @@ fun UnitConverter(modifier: Modifier = Modifier) {
             // Here all the UI elements  will be stacked next to each other
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Result: $outputValue $outputUnit")
+        // Result Text
+        Text(
+            text = "Result: $outputValue $outputUnit",
+            style = MaterialTheme.typography.headlineMedium
+        )
     }
 }
 
