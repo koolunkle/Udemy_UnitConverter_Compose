@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -69,7 +72,29 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                         contentDescription = "Arrow Down"
                     )
                 }
+                DropdownMenu(
+                    expanded = true,
+                    onDismissRequest = {}
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(text = "Centimeters") },
+                        onClick = {}
+                    )
+                    DropdownMenuItem(
+                        text = { Text(text = "Meters") },
+                        onClick = {}
+                    )
+                    DropdownMenuItem(
+                        text = { Text(text = "Feet") },
+                        onClick = {}
+                    )
+                    DropdownMenuItem(
+                        text = { Text(text = "Millimeters") },
+                        onClick = {}
+                    )
+                }
             }
+            Spacer(modifier = Modifier.width(16.dp))
             Box {
                 Button(
                     onClick = {}
@@ -78,6 +103,27 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "Arrow Down"
+                    )
+                }
+                DropdownMenu(
+                    expanded = true,
+                    onDismissRequest = {}
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(text = "Centimeters") },
+                        onClick = {}
+                    )
+                    DropdownMenuItem(
+                        text = { Text(text = "Meters") },
+                        onClick = {}
+                    )
+                    DropdownMenuItem(
+                        text = { Text(text = "Feet") },
+                        onClick = {}
+                    )
+                    DropdownMenuItem(
+                        text = { Text(text = "Millimeters") },
+                        onClick = {}
                     )
                 }
             }
