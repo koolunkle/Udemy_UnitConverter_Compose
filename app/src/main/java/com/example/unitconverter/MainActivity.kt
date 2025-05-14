@@ -55,18 +55,20 @@ fun UnitConverter(modifier: Modifier = Modifier) {
     var inputValue by remember { mutableStateOf("") }
     var outputValue by remember { mutableStateOf("") }
 
-    var inputUnit by remember { mutableStateOf("Centimeters") }
+    var inputUnit by remember { mutableStateOf("Meters") }
     var outputUnit by remember { mutableStateOf("Meters") }
 
     var inputExpanded by remember { mutableStateOf(false) }
     var outputExpanded by remember { mutableStateOf(false) }
 
-    val converterFactor = remember { mutableDoubleStateOf(0.01) }
+    val inputConverterFactor = remember { mutableDoubleStateOf(1.0) }
+    val outputConverterFactor = remember { mutableDoubleStateOf(1.0) }
 
     fun convertUnits() {
         // ?: - elvis operator
         val inputValueDouble = inputValue.toDoubleOrNull() ?: 0.0
-        val result = (inputValueDouble * converterFactor.doubleValue * 100.0).roundToInt() / 100.0
+        val result =
+            (inputValueDouble * inputConverterFactor.doubleValue * 100.0 / outputConverterFactor.doubleValue).roundToInt() / 100.0
         outputValue = result.toString()
     }
 
@@ -82,6 +84,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
             value = inputValue,
             onValueChange = {
                 inputValue = it
+                convertUnits()
                 // Here goes what should happen, when the Value of our OutlinedTextField changes
             },
             label = { Text(text = "Enter Value") }
@@ -94,7 +97,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                 Button(
                     onClick = { inputExpanded = true }
                 ) {
-                    Text(text = "Select")
+                    Text(text = inputUnit)
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "Arrow Down"
@@ -109,7 +112,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                         onClick = {
                             inputExpanded = false
                             inputUnit = "Centimeters"
-                            converterFactor.doubleValue = 0.01
+                            inputConverterFactor.doubleValue = 0.01
                             convertUnits()
                         }
                     )
@@ -118,7 +121,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                         onClick = {
                             inputExpanded = false
                             inputUnit = "Meters"
-                            converterFactor.doubleValue = 1.0
+                            inputConverterFactor.doubleValue = 1.0
                             convertUnits()
                         }
                     )
@@ -127,7 +130,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                         onClick = {
                             inputExpanded = false
                             inputUnit = "Feet"
-                            converterFactor.doubleValue = 0.3048
+                            inputConverterFactor.doubleValue = 0.3048
                             convertUnits()
                         }
                     )
@@ -136,7 +139,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                         onClick = {
                             inputExpanded = false
                             inputUnit = "Millimeters"
-                            converterFactor.doubleValue = 0.00
+                            inputConverterFactor.doubleValue = 0.001
                             convertUnits()
                         }
                     )
@@ -149,7 +152,7 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                 Button(
                     onClick = { outputExpanded = true }
                 ) {
-                    Text(text = "Select")
+                    Text(text = outputUnit)
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "Arrow Down"
@@ -161,26 +164,46 @@ fun UnitConverter(modifier: Modifier = Modifier) {
                 ) {
                     DropdownMenuItem(
                         text = { Text(text = "Centimeters") },
-                        onClick = {}
+                        onClick = {
+                            outputExpanded = false
+                            outputUnit = "Centimeters"
+                            outputConverterFactor.doubleValue = 0.01
+                            convertUnits()
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = "Meters") },
-                        onClick = {}
+                        onClick = {
+                            outputExpanded = false
+                            outputUnit = "Meters"
+                            outputConverterFactor.doubleValue = 1.0
+                            convertUnits()
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = "Feet") },
-                        onClick = {}
+                        onClick = {
+                            outputExpanded = false
+                            outputUnit = "Feet"
+                            outputConverterFactor.doubleValue = 0.3048
+                            convertUnits()
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = "Millimeters") },
-                        onClick = {}
+                        onClick = {
+                            outputExpanded = false
+                            outputUnit = "Millimeters"
+                            outputConverterFactor.doubleValue = 0.001
+                            convertUnits()
+                        }
                     )
                 }
             }
             // Here all the UI elements  will be stacked next to each other
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Result:")
+        Text(text = "Result: $outputValue $outputUnit")
     }
 }
 
